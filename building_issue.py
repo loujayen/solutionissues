@@ -5,64 +5,65 @@ def solve_puzzle(clues):
     clues8_11 = clues[8:12][::-1]  
     clues12_15 = clues[12:16][::-1]  
 
-    def unique(building, row, col, val):
+    def unique(building, row, col, num):
         for i in range(4):
-            if building[row][i] == val or building[i][col] == val:
+            if building[row][i] == num or building[i][col] == num:
+                print(building)
                 return False
         return True
 
     def check_visiblebuild_clues(building, row, col):
-        # Check columns for 0:4 and clues 8:12
-        for cl in range(4):
-            if clues0_3[cl] != 0:
+         # Check columns for clues0_3 and  clues8_11
+        for c in range(4):
+            if clues0_3[c] != 0:
                 visible = 0
                 max_height = 0
-                for rw in range(4):
-                    if building[rw][cl] == 0:
+                for r in range(4):
+                    if building[r][c] == 0:
                         break
-                    if building[rw][cl] > max_height:
+                    if building[r][c] > max_height:
                         visible += 1
-                        max_height = building[rw][cl]
+                        max_height = building[r][c]
                 else:  
-                    if visible != clues0_3[cl]:
+                    if visible != clues0_3[c]:
                         return False
-            if clues8_11[cl] != 0:
+            if clues8_11[c] != 0:
                 visible = 0
                 max_height = 0
-                for rw in range(3, -1, -1):
-                    if building[rw][cl] == 0:
+                for r in range(3, -1, -1):
+                    if building[r][c] == 0:
                         break
-                    if building[rw][cl] > max_height:
+                    if building[r][c] > max_height:
                         visible += 1
-                        max_height = building[rw][cl]
+                        max_height = building[r][c]
                 else:  
-                    if visible != clues8_11[cl]:
+                    if visible != clues8_11[c]:
                         return False
-        # Check rows for clues 4:7 and clues 12:15
-        for rw in range(4):
-            if clues12_15[rw] != 0:
+        # Check rows for clues12_15 and clues4_7
+        for r in range(4):
+            if clues12_15[r] != 0:
                 visible = 0
                 max_height = 0
                 for c in range(4):
-                    if building[rw][cl] == 0:
+                    if building[r][c] == 0:
                         break
-                    if building[rw][cl] > max_height:
+                    if building[r][c] > max_height:
                         visible += 1
-                        max_height = building[rw][cl]
+                        max_height = building[r][c]
                 else:  
-                    if visible != clues12_15[rw]:
+                    if visible != clues12_15[r]:
                         return False
-            if clues4_7[rw] != 0:
+            if clues4_7[r] != 0:
                 visible = 0
                 max_height = 0
-                for cl in range(3, -1, -1):
-                    if building[rw][cl] == 0:
+                for c in range(3, -1, -1):
+                    if building[r][c] == 0:
                         break
-                    if building[rw][cl] > max_height:
+                    if building[r][c] > max_height:
                         visible += 1
-                        max_height = building[rw][cl]
+                        max_height = building[r][c]
                 else: 
-                    if visible != clues4_7[rw]:
+                    if visible != clues4_7[r]:
                         return False
         return True
 
@@ -73,9 +74,9 @@ def solve_puzzle(clues):
         next_col = col + 1 if col < 3 else 0
         if building[row][col] != 0:
             return retcheck(building, next_row, next_col)
-        for val in range(1, 5):
-            if unique(building, row, col, val):
-                building[row][col] = val
+        for num in range(1, 5):
+            if unique(building, row, col, num):
+                building[row][col] = num
                 if check_visiblebuild_clues(building, row, col):
                     if retcheck(building, next_row, next_col):
                         return True
